@@ -37,17 +37,14 @@ vector<int> ek_bfs(int s,int t,vector<vector<edge>>A,int v){
             break;
         int temp=q.front(); q.pop();
         
-        int flag=0;
+        
         for(int i=0;i<v;i++){
             if(A[temp][i].flow!=A[temp][i].capacity && A[temp][i].capacity!=0 && visited[i]==0){
-                flag=1;
                 track[i]=temp;
                 q.push(i);
                 visited[i]=1;
             }
         }
-        if(flag==0)
-            return vector<int>();
     }
 
     stack<int>temp;
@@ -73,8 +70,11 @@ int Edmond_Karp(int s,int t,vector<vector<edge>>Adj,int v){
     while(1){
         //Find the augmented path first
         path=ek_bfs(s,t,Adj,v);
-        if(path.empty())
+        if(Adj[path[0]][path[1]].capacity==0){
+            cout<<"no path found\n";
             break;
+        }
+        else cout<<"path found";
         //Find the minimum edge capacity
         int mincap=INT_MAX;
         for(int i=0;i<(int)path.size()-1;i++){
@@ -119,3 +119,4 @@ int main(){
     cout<<Edmond_Karp(source-1,sink-1,adj,v)<<" is the final Max Flow of the Graph"<<endl;
     return 0;
 }
+
